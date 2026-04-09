@@ -322,7 +322,7 @@ html, body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0.5) rotateY(90deg);
-  width: 290px;
+  width: 320px;
   max-width: 92vw;
   z-index: 9999;
   opacity: 0;
@@ -515,6 +515,11 @@ html, body {
   box-shadow: 0 0 10px var(--success);
 }
 
+.status-core.proxy {
+  background: #ffaa00;
+  box-shadow: 0 0 10px #ffaa00;
+}
+
 @keyframes statusPulse {
   0%, 100% { transform: scale(1); opacity: 1; }
   50% { transform: scale(0.7); opacity: 0.6; }
@@ -526,6 +531,10 @@ html, body {
   border: 1px solid var(--success);
   border-radius: 50%;
   animation: statusRingExpand 1.5s ease-out infinite;
+}
+
+.status-ring.proxy {
+  border-color: #ffaa00;
 }
 
 @keyframes statusRingExpand {
@@ -726,7 +735,7 @@ html, body {
 }
 
 .info-title {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 900;
   font-family: 'Orbitron', sans-serif;
   color: #1a1a3e;
@@ -738,10 +747,11 @@ html, body {
   gap: 8px;
   position: relative;
   z-index: 1;
+  flex-wrap: wrap;
 }
 
 .title-icon {
-  font-size: 18px;
+  font-size: 16px;
   animation: targetSpin 3s ease-in-out infinite;
   display: inline-block;
 }
@@ -751,6 +761,83 @@ html, body {
   25% { transform: scale(1.2) rotate(-15deg); }
   50% { transform: scale(1) rotate(0deg); }
   75% { transform: scale(1.2) rotate(15deg); }
+}
+
+/* API Status Badge */
+.api-status-badge {
+  font-size: 7px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(0, 255, 157, 0.2);
+  color: var(--success);
+  border: 1px solid var(--success);
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+.api-status-badge.proxy {
+  background: rgba(255, 170, 0, 0.2);
+  color: #ffaa00;
+  border-color: #ffaa00;
+}
+
+/* Period Display - Full Number */
+.period-full-box {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  padding: 10px;
+  text-align: center;
+  margin-bottom: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.period-full-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: boxShine 4s ease-in-out infinite;
+}
+
+@keyframes boxShine {
+  0%, 100% { left: -100%; }
+  50% { left: 100%; }
+}
+
+.period-full-label {
+  font-size: 8px;
+  font-weight: 700;
+  color: #2d3436;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+  opacity: 0.8;
+}
+
+.period-full-val {
+  font-size: 16px;
+  font-weight: 900;
+  font-family: 'Orbitron', sans-serif;
+  color: #1a1a3e;
+  letter-spacing: 2px;
+  position: relative;
+  display: inline-block;
+  word-break: break-all;
+}
+
+.period-full-val.animate {
+  animation: valueFlip 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes valueFlip {
+  0% { transform: rotateX(90deg) scale(0.5); opacity: 0; }
+  100% { transform: rotateX(0deg) scale(1); opacity: 1; }
 }
 
 /* Info Row */
@@ -764,7 +851,7 @@ html, body {
   flex: 1;
   background: rgba(255, 255, 255, 0.25);
   border-radius: 12px;
-  padding: 12px;
+  padding: 12px 8px;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -781,11 +868,7 @@ html, body {
   height: 100%;
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
   animation: boxShine 4s ease-in-out infinite;
-}
-
-@keyframes boxShine {
-  0%, 100% { left: -100%; }
-  50% { left: 100%; }
+  animation-delay: 1s;
 }
 
 .info-box:hover {
@@ -801,25 +884,6 @@ html, body {
   letter-spacing: 1px;
   margin-bottom: 4px;
   opacity: 0.8;
-}
-
-.period-val {
-  font-size: 15px;
-  font-weight: 900;
-  font-family: 'Orbitron', sans-serif;
-  color: #1a1a3e;
-  letter-spacing: 1px;
-  position: relative;
-  display: inline-block;
-}
-
-.period-val.animate {
-  animation: valueFlip 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-@keyframes valueFlip {
-  0% { transform: rotateX(90deg) scale(0.5); opacity: 0; }
-  100% { transform: rotateX(0deg) scale(1); opacity: 1; }
 }
 
 .result-val {
@@ -861,6 +925,31 @@ html, body {
   0% { transform: scale(0) rotate(-180deg); }
   60% { transform: scale(1.3) rotate(10deg); }
   100% { transform: scale(1) rotate(0deg); }
+}
+
+/* Color indicator */
+.color-indicator {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-top: 4px;
+  display: inline-block;
+  letter-spacing: 1px;
+}
+
+.color-indicator.green {
+  background: rgba(0, 255, 65, 0.2);
+  color: #00ff41;
+  border: 1px solid #00ff41;
+  box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+}
+
+.color-indicator.red {
+  background: rgba(255, 0, 60, 0.2);
+  color: #ff003c;
+  border: 1px solid #ff003c;
+  box-shadow: 0 0 10px rgba(255, 0, 60, 0.3);
 }
 
 /* Pills Container */
@@ -1290,10 +1379,11 @@ html, body {
 
 /* Responsive */
 @media (max-width: 340px) {
-  .panel { width: 270px; }
+  .panel { width: 280px; }
   .pill { width: 56px; height: 48px; }
   .pill-num { font-size: 22px; }
   .trigger { width: 48px; height: 48px; }
+  .period-full-val { font-size: 14px; }
 }
 </style>
 </head>
@@ -1363,8 +1453,8 @@ html, body {
     </div>
     <div class="panel-title">
       <div class="status-container">
-        <span class="status-core"></span>
-        <span class="status-ring"></span>
+        <span class="status-core" id="statusCore"></span>
+        <span class="status-ring" id="statusRing"></span>
       </div>
       <span class="title-text">VIPHACK PRO</span>
     </div>
@@ -1386,16 +1476,23 @@ html, body {
       <div class="info-title">
         <span class="title-icon">🎯</span>
         <span>AI PREDICTION</span>
+        <span class="api-status-badge" id="apiBadge">DIRECT</span>
+      </div>
+      
+      <!-- Full Period Number Display -->
+      <div class="period-full-box">
+        <div class="period-full-label">ACTIVE PERIOD ID</div>
+        <div class="period-full-val" id="periodFull">WAIT...</div>
       </div>
       
       <div class="info-row">
         <div class="info-box">
-          <div class="info-label">Period</div>
-          <div class="period-val" id="period">----</div>
+          <div class="info-label">Size</div>
+          <div class="result-val" id="result">--</div>
         </div>
         <div class="info-box">
-          <div class="info-label">Result</div>
-          <div class="result-val" id="result">--</div>
+          <div class="info-label">Color</div>
+          <div class="color-indicator" id="colorIndicator">--</div>
         </div>
       </div>
       
@@ -1438,6 +1535,22 @@ html, body {
 (function() {
   'use strict';
 
+  // ========================================
+  // PREDICTION LOGIC - Based on Last Digit
+  // ========================================
+  const PREDICTION_LOGIC = {
+    '0': { size: 'BIG',   color: 'RED',   nums: [0, 6, 8] },
+    '1': { size: 'SMALL', color: 'GREEN', nums: [1, 3, 7] },
+    '2': { size: 'SMALL', color: 'RED',   nums: [2, 4, 8] },
+    '3': { size: 'SMALL', color: 'GREEN', nums: [1, 3, 9] },
+    '4': { size: 'SMALL', color: 'RED',   nums: [2, 4, 6] },
+    '5': { size: 'BIG',   color: 'GREEN', nums: [5, 7, 9] },
+    '6': { size: 'BIG',   color: 'RED',   nums: [0, 6, 8] },
+    '7': { size: 'BIG',   color: 'GREEN', nums: [3, 7, 9] },
+    '8': { size: 'BIG',   color: 'RED',   nums: [2, 6, 8] },
+    '9': { size: 'BIG',   color: 'GREEN', nums: [5, 7, 9] }
+  };
+
   const API = {
     url: 'https://api.bdg88zf.com/api/webapi/GetGameIssue',
     body: {
@@ -1461,33 +1574,75 @@ html, body {
     panel: $('panel'),
     header: $('header'),
     closeBtn: $('closeBtn'),
-    period: $('period'),
+    periodFull: $('periodFull'),
     result: $('result'),
+    colorIndicator: $('colorIndicator'),
     pill1: $('pill1'),
     pill2: $('pill2'),
     num1: $('num1'),
     num2: $('num2'),
     accuracy: $('accuracy'),
     accuracyBar: $('accuracyBar'),
-    particles: $('particles')
+    particles: $('particles'),
+    statusCore: $('statusCore'),
+    statusRing: $('statusRing'),
+    apiBadge: $('apiBadge')
   };
 
   const state = {
     lastPeriod: null,
     isOpen: false,
     isAnimating: false,
-    interval: null
+    interval: null,
+    apiMode: 'DIRECT'
   };
 
   const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
   const randFloat = (min, max) => Math.random() * (max - min) + min;
-  const randSize = () => Math.random() < 0.5 ? 'BIG' : 'SMALL';
 
-  function genPrediction() {
-    let n1 = rand(0, 9);
-    let n2 = rand(0, 9);
-    while (n2 === n1) n2 = rand(0, 9);
-    return { n1, n2, size: randSize() };
+  // ========================================
+  // FALLBACK: Generate Local Period
+  // ========================================
+  function getLocalPeriod() {
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const d = String(now.getDate()).padStart(2, '0');
+    const totalMins = (now.getHours() * 60) + now.getMinutes() + 1;
+    const sequence = String(totalMins).padStart(4, '0');
+    return `${y}${m}${d}1000${sequence}`;
+  }
+
+  // ========================================
+  // PREDICTION: Based on Period's Last Digit
+  // ========================================
+  function genPrediction(period) {
+    const lastDigit = period.slice(-1);
+    const data = PREDICTION_LOGIC[lastDigit] || PREDICTION_LOGIC['1'];
+    return { 
+      n1: data.nums[0], 
+      n2: data.nums[1], 
+      size: data.size,
+      color: data.color
+    };
+  }
+
+  // ========================================
+  // UPDATE API STATUS INDICATOR
+  // ========================================
+  function updateApiStatus(mode) {
+    state.apiMode = mode;
+    if (mode === 'PROXY') {
+      el.statusCore.classList.add('proxy');
+      el.statusRing.classList.add('proxy');
+      el.apiBadge.classList.add('proxy');
+      el.apiBadge.textContent = 'PROXY';
+    } else {
+      el.statusCore.classList.remove('proxy');
+      el.statusRing.classList.remove('proxy');
+      el.apiBadge.classList.remove('proxy');
+      el.apiBadge.textContent = 'DIRECT';
+    }
   }
 
   function createParticles() {
@@ -1617,7 +1772,11 @@ html, body {
     el.result.textContent = pred.size;
     el.result.className = 'result-val ' + pred.size.toLowerCase();
     animateElement(el.result, 'animate');
-    animateElement(el.period, 'animate');
+    animateElement(el.periodFull, 'animate');
+    
+    // Update color indicator
+    el.colorIndicator.textContent = pred.color;
+    el.colorIndicator.className = 'color-indicator ' + pred.color.toLowerCase();
     
     const acc = (96 + Math.random() * 3).toFixed(1);
     el.accuracy.textContent = acc + '%';
@@ -1706,7 +1865,13 @@ html, body {
   async function fetchData() {
     if (state.isAnimating) return;
 
+    let fetchedPeriod = null;
+    let apiMode = 'DIRECT';
+
     try {
+      // Update timestamp for live API
+      API.body.timestamp = Math.floor(Date.now() / 1000);
+      
       const ctrl = new AbortController();
       const timeout = setTimeout(() => ctrl.abort(), 6000);
 
@@ -1718,41 +1883,42 @@ html, body {
       });
 
       clearTimeout(timeout);
-      if (!res.ok) throw new Error();
+      
+      if (!res.ok) throw new Error('API Response not OK');
 
       const data = await res.json();
 
       if (data?.code === 0 && data?.data?.issueNumber) {
-        const period = String(data.data.issueNumber);
-
-        if (period !== state.lastPeriod) {
-          state.lastPeriod = period;
-          state.isAnimating = true;
-
-          el.period.textContent = period.slice(-4);
-          showLoaders();
-
-          setTimeout(() => {
-            hideLoaders();
-            render(genPrediction());
-            state.isAnimating = false;
-          }, 1500);
-        }
+        fetchedPeriod = String(data.data.issueNumber);
+        apiMode = 'DIRECT';
       } else {
-        throw new Error();
+        throw new Error('Invalid API data');
       }
-    } catch {
-      if (!state.isAnimating) {
-        state.isAnimating = true;
-        el.period.textContent = '----';
-        showLoaders();
+    } catch (error) {
+      // API blocked or failed - use local proxy calculation
+      fetchedPeriod = getLocalPeriod();
+      apiMode = 'PROXY';
+    }
 
-        setTimeout(() => {
-          hideLoaders();
-          render(genPrediction());
-          state.isAnimating = false;
-        }, 1500);
-      }
+    // Update API status indicator
+    updateApiStatus(apiMode);
+
+    // Update UI if period changed
+    if (fetchedPeriod && fetchedPeriod !== state.lastPeriod) {
+      state.lastPeriod = fetchedPeriod;
+      state.isAnimating = true;
+
+      // Display FULL period number
+      el.periodFull.textContent = fetchedPeriod;
+      showLoaders();
+
+      setTimeout(() => {
+        hideLoaders();
+        // Generate prediction based on period's last digit
+        const prediction = genPrediction(fetchedPeriod);
+        render(prediction);
+        state.isAnimating = false;
+      }, 1500);
     }
   }
 
@@ -1765,7 +1931,7 @@ html, body {
     el.overlay.addEventListener('click', closePanel);
 
     fetchData();
-    state.interval = setInterval(fetchData, 2000);
+    state.interval = setInterval(fetchData, 1000);
 
     setTimeout(() => el.loading.classList.add('hide'), 1800);
   }
