@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JAI CLUB | Official Platform</title>
+<style>
+:root {
+  --bg: #060a13;
+  --card: rgba(12, 18, 35, 0.9);
+  --cyan: #00e5ff;
+  --blue: #0066ff;
+  --green: #00ff88;
+  --purple: #8b5cf6;
+  --gold: #ffd700;
+  --text-dim: rgba(255,255,255,0.55);
+  --glass-border: rgba(255,255,255,0.08);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 14px;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════
+   PARTICLE CANVAS
+   ═══════════════════════════════════ */
+#particles {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════
+   BACKGROUND LAYERS
+   ═══════════════════════════════════ */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,229,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,255,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(circle, black 30%, transparent 70%);
+  z-index: 0;
+}
+
+.orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: 0;
+  pointer-events: none;
+}
+.orb-1 {
+  width: 500px; height: 500px;
+  background: rgba(0,102,255,0.15);
+  top: -15%; left: -10%;
+  animation: orbFloat1 12s ease-in-out infinite alternate;
+}
+.orb-2 {
+  width: 400px; height: 400px;
+  background: rgba(139,92,246,0.12);
+  bottom: -10%; right: -10%;
+  animation: orbFloat2 10s ease-in-out infinite alternate;
+}
+.orb-3 {
+  width: 300px; height: 300px;
+  background: rgba(0,229,255,0.08);
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  animation: orbFloat3 14s ease-in-out infinite alternate;
+}
+
+@keyframes orbFloat1 {
+  from { transform: translate(0,0) scale(1); }
+  to { transform: translate(60px,80px) scale(1.3); }
+}
+@keyframes orbFloat2 {
+  from { transform: translate(0,0) scale(1); }
+  to { transform: translate(-50px,-60px) scale(1.2); }
+}
+@keyframes orbFloat3 {
+  from { transform: translate(-50%,-50%) scale(1); opacity:.5; }
+  to { transform: translate(-30%,-40%) scale(1.4); opacity:.8; }
+}
+
+/* ═══════════════════════════════════
+   MAIN WRAPPER
+   ═══════════════════════════════════ */
+.wrapper {
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+  z-index: 10;
+}
+
+/* ═══════════════════════════════════
+   LIVE NOTIFICATION BAR
+   ═══════════════════════════════════ */
+.live-bar {
+  background: rgba(0,255,136,0.08);
+  border: 1px solid rgba(0,255,136,0.2);
+  border-radius: 14px;
+  padding: 10px 16px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--green);
+  animation: fadeSlideDown 0.8s ease;
+  overflow: hidden;
+  position: relative;
+}
+
+.live-dot {
+  width: 8px; height: 8px;
+  background: var(--green);
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%,100% { opacity:1; box-shadow: 0 0 0 0 rgba(0,255,136,0.5); }
+  50% { opacity:.7; box-shadow: 0 0 0 6px rgba(0,255,136,0); }
+}
+
+.live-bar .scroll-text {
+  white-space: nowrap;
+  animation: scrollText 20s linear infinite;
+}
+
+@keyframes scrollText {
+  from { transform: translateX(100%); }
+  to { transform: translateX(-200%); }
+}
+
+/* ═══════════════════════════════════
+   MAIN CARD
+   ═══════════════════════════════════ */
+.card {
+  background: var(--card);
+  backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+  border-radius: 28px;
+  padding: 36px 24px 30px;
+  text-align: center;
+  box-shadow:
+    0 25px 60px rgba(0,0,0,0.6),
+    0 0 0 1px rgba(255,255,255,0.04) inset;
+  position: relative;
+  overflow: hidden;
+  animation: cardEntry 1s cubic-bezier(0.16,1,0.3,1);
+}
+
+@keyframes cardEntry {
+  from { opacity:0; transform: translateY(40px) scale(0.95); }
+  to { opacity:1; transform: translateY(0) scale(1); }
+}
+
+/* Animated top border line */
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyan), var(--purple), transparent);
+  background-size: 200% 100%;
+  animation: borderFlow 4s linear infinite;
+}
+
+@keyframes borderFlow {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+/* ═══════════════════════════════════
+   AVATAR
+   ═══════════════════════════════════ */
+.avatar-container {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  margin: 0 auto 22px;
+}
+
+.avatar-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: conic-gradient(var(--cyan), var(--purple), var(--blue), var(--cyan));
+  animation: spinRing 4s linear infinite;
+  opacity: 0.6;
+}
+
+@keyframes spinRing {
+  to { transform: rotate(360deg); }
+}
+
+.avatar-inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid var(--bg);
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.avatar-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.verified-icon {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 24px;
+  height: 24px;
+  background: var(--cyan);
+  border-radius: 50%;
+  border: 3px solid var(--bg);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.verified-icon svg {
+  width: 12px;
+  height: 12px;
+  fill: #000;
+}
+
+/* ═══════════════════════════════════
+   TYPOGRAPHY
+   ═══════════════════════════════════ */
+.brand {
+  font-size: 30px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, #fff 0%, #a0c4ff 50%, var(--cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 6px;
+  animation: textGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes textGlow {
+  from { filter: drop-shadow(0 0 8px rgba(0,229,255,0.3)); }
+  to { filter: drop-shadow(0 0 16px rgba(0,229,255,0.5)); }
+}
+
+.subtitle {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.member-count {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--green);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.member-count .dot {
+  width: 6px; height: 6px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+/* ═══════════════════════════════════
+   TAG ROW
+   ═══════════════════════════════════ */
+.tags {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.tag {
+  padding: 7px 14px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  border: 1px solid;
+}
+
+.tag-cyan {
+  color: var(--cyan);
+  border-color: rgba(0,229,255,0.2);
+  background: rgba(0,229,255,0.06);
+}
+
+.tag-purple {
+  color: var(--purple);
+  border-color: rgba(139,92,246,0.2);
+  background: rgba(139,92,246,0.06);
+}
+
+.tag-gold {
+  color: var(--gold);
+  border-color: rgba(255,215,0,0.2);
+  background: rgba(255,215,0,0.06);
+}
+
+/* ═══════════════════════════════════
+   STATS GRID
+   ═══════════════════════════════════ */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.stat {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 18px;
+  padding: 18px 6px;
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,229,255,0.08), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.stat:hover {
+  transform: translateY(-6px);
+  border-color: var(--cyan);
+  box-shadow: 0 12px 30px rgba(0,229,255,0.1);
+}
+
+.stat:hover::after { opacity:1; }
+
+.stat-val {
+  display: block;
+  font-size: 22px;
+  font-weight: 800;
+  position: relative;
+  z-index: 1;
+}
+
+.stat-label {
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-dim);
+  margin-top: 4px;
+  position: relative;
+  z-index: 1;
+}
+
+.color-cyan { color: var(--cyan); }
+.color-green { color: var(--green); }
+.color-purple { color: var(--purple); }
+
+/* ═══════════════════════════════════
+   FEATURES ROW
+   ═══════════════════════════════════ */
+.features {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.feature {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  padding: 14px 10px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.feature:hover {
+  border-color: rgba(0,229,255,0.3);
+  transform: translateY(-3px);
+}
+
+.feature-icon {
+  width: 36px;
+  height: 36px;
+  margin: 0 auto 8px;
+  background: rgba(0,229,255,0.08);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke: var(--cyan);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.feature h4 {
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.feature p {
+  font-size: 10px;
+  color: var(--text-dim);
+}
+
+/* ═══════════════════════════════════
+   CTA BUTTON
+   ═══════════════════════════════════ */
+.cta {
+  display: block;
+  width: 100%;
+  padding: 18px;
+  border-radius: 18px;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #000;
+  background: linear-gradient(135deg, var(--cyan), var(--blue));
+  box-shadow: 0 8px 24px rgba(0,229,255,0.25);
+  transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+  position: relative;
+  overflow: hidden;
+}
+
+.cta:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 14px 36px rgba(0,229,255,0.4);
+}
+
+.cta:active {
+  transform: scale(0.98);
+}
+
+/* Shimmer effect */
+.cta::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  30% { left: 120%; }
+  100% { left: 120%; }
+}
+
+/* ═══════════════════════════════════
+   WINNING POPUP
+   ═══════════════════════════════════ */
+.win-popup {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(120px);
+  background: rgba(12,18,35,0.95);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(0,255,136,0.2);
+  border-radius: 16px;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 999;
+  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+  max-width: 360px;
+  width: 90%;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+.win-popup.show {
+  transform: translateX(-50%) translateY(0);
+}
+
+.win-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--cyan), var(--purple));
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.win-info {
+  flex: 1;
+}
+
+.win-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.win-amount {
+  font-size: 11px;
+  color: var(--green);
+  font-weight: 600;
+}
+
+.win-time {
+  font-size: 10px;
+  color: var(--text-dim);
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════ */
+.footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  line-height: 1.8;
+  animation: fadeSlideDown 1.2s ease;
+}
+
+@keyframes fadeSlideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════ */
+@media (max-width: 380px) {
+  .card { padding: 28px 16px 24px; }
+  .brand { font-size: 24px; }
+  .stat-val { font-size: 18px; }
+  .cta { padding: 16px; font-size: 14px; }
+  .features { grid-template-columns: 1fr 1fr; gap: 8px; }
+}
+
+@media (max-width: 320px) {
+  .tags { gap: 6px; }
+  .tag { padding: 5px 10px; font-size: 10px; }
+  .stats { gap: 6px; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+<div class="bg-grid"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<div class="wrapper">
+
+  <!-- Live notification bar -->
+  <div class="live-bar">
+    <div class="live-dot"></div>
+    <div style="overflow:hidden;flex:1;">
+      <span class="scroll-text" id="scrollText">
+        Rahul from Delhi won ₹12,500 &nbsp;&bull;&nbsp;
+        Priya from Mumbai won ₹8,200 &nbsp;&bull;&nbsp;
+        Arjun from Pune won ₹15,000 &nbsp;&bull;&nbsp;
+        Sneha from Bangalore won ₹9,800
+      </span>
+    </div>
+  </div>
+
+  <!-- Main Card -->
+  <div class="card">
+
+    <!-- Top border glow animation is via ::before -->
+
+    <!-- Avatar -->
+    <div class="avatar-container">
+      <div class="avatar-ring"></div>
+      <div class="avatar-inner">
+        <img src="https://jaiclub.games/wp-content/uploads/2026/03/jai-club-1-e1774171855952-300x300.jpeg" alt="JAI CLUB">
+      </div>
+      <div class="verified-icon">
+        <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+      </div>
+    </div>
+
+    <!-- Brand -->
+    <h1 class="brand">JAI CLUB</h1>
+    <p class="subtitle">Premium Match Analysis Platform</p>
+    <div class="member-count">
+      <span class="dot"></span>
+      <span id="memberCount">500,038</span> Active Members
+    </div>
+
+    <!-- Tags -->
+    <div class="tags">
+      <span class="tag tag-cyan">Verified</span>
+      <span class="tag tag-purple">Elite Analyst</span>
+      <span class="tag tag-gold">VIP Access</span>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-val color-cyan" data-target="25914">0</span>
+        <span class="stat-label">Match Tips</span>
+      </div>
+      <div class="stat">
+        <span class="stat-val color-green" data-target="99" data-suffix="%">0</span>
+        <span class="stat-label">Win Rate</span>
+      </div>
+      <div class="stat">
+        <span class="stat-val color-purple" data-target="49" data-decimal="true">0</span>
+        <span class="stat-label">User Rating</span>
+      </div>
+    </div>
+
+    <!-- Features -->
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h4>100% Secure</h4>
+        <p>Encrypted Platform</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <h4>24/7 Support</h4>
+        <p>Always Available</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <h4>Daily Tips</h4>
+        <p>Expert Analysis</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <h4>5L+ Users</h4>
+        <p>Growing Community</p>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <a href="https://t.me/promotekids" target="_blank" rel="noopener noreferrer" class="cta">
+      Register and Get ₹58 Bonus
+    </a>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    Trusted Platform &bull; Secure Access &bull; 24/7 Support<br>
+    &copy; 2025 JAI CLUB. All rights reserved.
+  </div>
+
+</div>
+
+<!-- Win Popup -->
+<div class="win-popup" id="winPopup">
+  <div class="win-avatar" id="winAvatar">R</div>
+  <div class="win-info">
+    <div class="win-name" id="winName">Rahul S.</div>
+    <div class="win-amount" id="winAmount">Won ₹12,500</div>
+  </div>
+  <div class="win-time" id="winTime">Just now</div>
+</div>
+
+<script>
+/* ═══════════════════════════════════
+   PARTICLE SYSTEM
+   ═══════════════════════════════════ */
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+let particles = [];
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
+class Particle {
+  constructor() {
+    this.reset();
+  }
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 2 + 0.5;
+    this.speedX = (Math.random() - 0.5) * 0.4;
+    this.speedY = (Math.random() - 0.5) * 0.4;
+    this.opacity = Math.random() * 0.5 + 0.1;
+    this.pulse = Math.random() * Math.PI * 2;
+  }
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    this.pulse += 0.02;
+    this.opacity = 0.1 + Math.sin(this.pulse) * 0.2;
+    if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+      this.reset();
+    }
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(0, 229, 255, ${this.opacity})`;
+    ctx.fill();
+  }
+}
+
+for (let i = 0; i < 60; i++) {
+  particles.push(new Particle());
+}
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Draw connections
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 120) {
+        ctx.beginPath();
+        ctx.strokeStyle = `rgba(0, 229, 255, ${0.06 * (1 - dist / 120)})`;
+        ctx.lineWidth = 0.5;
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+
+  particles.forEach(p => {
+    p.update();
+    p.draw();
+  });
+
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+/* ═══════════════════════════════════
+   COUNTER ANIMATION
+   ═══════════════════════════════════ */
+function animateCounters() {
+  const counters = document.querySelectorAll("[data-target]");
+  counters.forEach(el => {
+    const target = parseInt(el.dataset.target);
+    const suffix = el.dataset.suffix || "";
+    const isDecimal = el.dataset.decimal === "true";
+    const duration = 2000;
+    const start = performance.now();
+
+    function tick(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 4);
+      let current = Math.floor(eased * target);
+
+      if (isDecimal) {
+        el.textContent = (current / 10).toFixed(1) + suffix;
+      } else {
+        el.textContent = current.toLocaleString() + suffix;
+      }
+
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  });
+}
+
+// Intersection Observer for counters
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      animateCounters();
+      observer.disconnect();
+    }
+  });
+}, { threshold: 0.5 });
+
+observer.observe(document.querySelector(".stats"));
+
+/* ═══════════════════════════════════
+   LIVE MEMBER COUNT
+   ═══════════════════════════════════ */
+let memberBase = 500038;
+const memberEl = document.getElementById("memberCount");
+
+function updateMembers() {
+  memberBase += Math.floor(Math.random() * 3) + 1;
+  memberEl.textContent = memberBase.toLocaleString();
+  setTimeout(updateMembers, 3000 + Math.random() * 5000);
+}
+updateMembers();
+
+/* ═══════════════════════════════════
+   WINNING POPUP SYSTEM
+   ═══════════════════════════════════ */
+const names = [
+  "Rahul S.","Priya M.","Arjun K.","Sneha R.","Vikram T.",
+  "Anjali D.","Rohan P.","Kavita N.","Amit G.","Deepa L.",
+  "Suresh B.","Meena V.","Karthik J.","Nisha A.","Rajesh W.",
+  "Pooja C.","Manoj H.","Swati F.","Aakash I.","Divya E."
+];
+
+const cities = [
+  "Delhi","Mumbai","Pune","Bangalore","Chennai",
+  "Hyderabad","Kolkata","Jaipur","Lucknow","Ahmedabad"
+];
+
+const amounts = [
+  "₹8,200","₹12,500","₹5,600","₹15,000","₹9,800",
+  "₹22,000","₹7,400","₹18,300","₹11,700","₹6,900"
+];
+
+const times = ["Just now","2 min ago","5 min ago","8 min ago","1 min ago"];
+
+const popup = document.getElementById("winPopup");
+const winAvatar = document.getElementById("winAvatar");
+const winName = document.getElementById("winName");
+const winAmount = document.getElementById("winAmount");
+const winTime = document.getElementById("winTime");
+
+function showWinPopup() {
+  const name = names[Math.floor(Math.random() * names.length)];
+  const city = cities[Math.floor(Math.random() * cities.length)];
+  const amount = amounts[Math.floor(Math.random() * amounts.length)];
+  const time = times[Math.floor(Math.random() * times.length)];
+
+  winAvatar.textContent = name.charAt(0);
+  winName.textContent = name + " from " + city;
+  winAmount.textContent = "Won " + amount;
+  winTime.textContent = time;
+
+  popup.classList.add("show");
+
+  setTimeout(() => {
+    popup.classList.remove("show");
+  }, 4000);
+
+  setTimeout(showWinPopup, 6000 + Math.random() * 8000);
+}
+
+setTimeout(showWinPopup, 3000);
+
+/* ═══════════════════════════════════
+   SCROLL TEXT UPDATE
+   ═══════════════════════════════════ */
+function generateScrollText() {
+  let text = "";
+  for (let i = 0; i < 6; i++) {
+    const name = names[Math.floor(Math.random() * names.length)];
+    const city = cities[Math.floor(Math.random() * cities.length)];
+    const amount = amounts[Math.floor(Math.random() * amounts.length)];
+    text += name + " from " + city + " won " + amount + " \u2022 ";
+  }
+  return text;
+}
+
+const scrollEl = document.getElementById("scrollText");
+setInterval(() => {
+  scrollEl.textContent = generateScrollText();
+}, 25000);
+</script>
+</body>
+</html>
