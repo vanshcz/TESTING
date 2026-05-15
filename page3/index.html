@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JAI CLUB | Official Platform</title>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2212403179563148');
+fbq('track', 'PageView');
+</script>
+<!-- End Meta Pixel Code -->
+<style>
+:root {
+  --bg: #ffef3f;
+  --ink: #111111;
+  --paper: #ffffff;
+  --telegram: #25a4e8;
+  --pink: #ff4fa3;
+  --green: #34f06f;
+  --purple: #8f5bff;
+  --shadow: #111111;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  background-image:
+    linear-gradient(90deg, rgba(17,17,17,0.08) 1px, transparent 1px),
+    linear-gradient(rgba(17,17,17,0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+  font-family: Impact, Haettenschweiler, "Arial Black", "Segoe UI", sans-serif;
+  color: var(--ink);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 28px 14px;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════
+   PARTICLE CANVAS
+   ═══════════════════════════════════ */
+#particles {
+  display: none;
+}
+
+/* ═══════════════════════════════════
+   BACKGROUND LAYERS
+   ═══════════════════════════════════ */
+.bg-grid {
+  display: none;
+}
+
+.orb {
+  display: none;
+}
+
+@keyframes orbFloat1 {
+  from { transform: translate(0,0) scale(1); }
+  to { transform: translate(60px,80px) scale(1.3); }
+}
+@keyframes orbFloat2 {
+  from { transform: translate(0,0) scale(1); }
+  to { transform: translate(-50px,-60px) scale(1.2); }
+}
+@keyframes orbFloat3 {
+  from { transform: translate(-50%,-50%) scale(1); opacity:.5; }
+  to { transform: translate(-30%,-40%) scale(1.4); opacity:.8; }
+}
+
+/* ═══════════════════════════════════
+   MAIN WRAPPER
+   ═══════════════════════════════════ */
+.wrapper {
+  width: 100%;
+  max-width: 430px;
+  position: relative;
+  z-index: 10;
+}
+
+/* ═══════════════════════════════════
+   LIVE NOTIFICATION BAR
+   ═══════════════════════════════════ */
+.live-bar {
+  background: rgba(0,255,136,0.08);
+  border: 1px solid rgba(0,255,136,0.2);
+  border-radius: 14px;
+  padding: 10px 16px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--green);
+  animation: fadeSlideDown 0.8s ease;
+  overflow: hidden;
+  position: relative;
+}
+
+.live-dot {
+  width: 8px; height: 8px;
+  background: var(--green);
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%,100% { opacity:1; box-shadow: 0 0 0 0 rgba(0,255,136,0.5); }
+  50% { opacity:.7; box-shadow: 0 0 0 6px rgba(0,255,136,0); }
+}
+
+.live-bar .scroll-text {
+  white-space: nowrap;
+  animation: scrollText 20s linear infinite;
+}
+
+@keyframes scrollText {
+  from { transform: translateX(100%); }
+  to { transform: translateX(-200%); }
+}
+
+/* ═══════════════════════════════════
+   MAIN CARD
+   ═══════════════════════════════════ */
+.card {
+  background: var(--paper);
+  border: 5px solid var(--ink);
+  border-radius: 0;
+  padding: 28px 22px 24px;
+  text-align: center;
+  box-shadow: 12px 12px 0 var(--shadow);
+  position: relative;
+  overflow: hidden;
+  animation: none;
+}
+
+@keyframes cardEntry {
+  from { opacity:0; transform: translateY(40px) scale(0.95); }
+  to { opacity:1; transform: translateY(0) scale(1); }
+}
+
+/* Animated top border line */
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 14px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--pink) 0 28px,
+    var(--green) 28px 56px,
+    var(--telegram) 56px 84px,
+    var(--purple) 84px 112px
+  );
+  border-bottom: 5px solid var(--ink);
+  animation: none;
+}
+
+@keyframes borderFlow {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+/* ═══════════════════════════════════
+   AVATAR
+   ═══════════════════════════════════ */
+.avatar-container {
+  position: relative;
+  width: 112px;
+  height: 112px;
+  margin: 18px auto 20px;
+}
+
+.avatar-ring {
+  display: none;
+}
+
+@keyframes spinRing {
+  to { transform: rotate(360deg); }
+}
+
+.avatar-inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  border: 5px solid var(--ink);
+  overflow: hidden;
+  background: var(--paper);
+  box-shadow: 7px 7px 0 var(--pink);
+}
+
+.avatar-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.verified-icon {
+  position: absolute;
+  bottom: -6px;
+  right: -6px;
+  width: 30px;
+  height: 30px;
+  background: var(--green);
+  border-radius: 0;
+  border: 4px solid var(--ink);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.verified-icon svg {
+  width: 15px;
+  height: 15px;
+  fill: var(--ink);
+}
+
+/* ═══════════════════════════════════
+   TYPOGRAPHY
+   ═══════════════════════════════════ */
+.brand {
+  font-size: 42px;
+  font-weight: 900;
+  letter-spacing: 0;
+  color: var(--ink);
+  background: var(--green);
+  border: 4px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--shadow);
+  display: inline-block;
+  padding: 4px 12px;
+  margin-bottom: 12px;
+  animation: none;
+}
+
+@keyframes textGlow {
+  from { filter: drop-shadow(0 0 8px rgba(0,229,255,0.3)); }
+  to { filter: drop-shadow(0 0 16px rgba(0,229,255,0.5)); }
+}
+
+.subtitle {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: var(--ink);
+  margin-bottom: 8px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.channel-note {
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--ink);
+  margin-bottom: 16px;
+}
+
+/* ═══════════════════════════════════
+   TAG ROW
+   ═══════════════════════════════════ */
+.tags {
+  display: flex;
+  gap: 9px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.tag {
+  font-family: Arial, sans-serif;
+  padding: 8px 11px;
+  border-radius: 0;
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  border: 3px solid var(--ink);
+  color: var(--ink);
+  box-shadow: 4px 4px 0 var(--shadow);
+}
+
+.tag-cyan {
+  background: var(--telegram);
+}
+
+.tag-purple {
+  background: var(--purple);
+}
+
+.tag-gold {
+  background: var(--pink);
+}
+
+/* ═══════════════════════════════════
+   STATS GRID
+   ═══════════════════════════════════ */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.stat {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 18px;
+  padding: 18px 6px;
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,229,255,0.08), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.stat:hover {
+  transform: translateY(-6px);
+  border-color: var(--cyan);
+  box-shadow: 0 12px 30px rgba(0,229,255,0.1);
+}
+
+.stat:hover::after { opacity:1; }
+
+.stat-val {
+  display: block;
+  font-size: 22px;
+  font-weight: 800;
+  position: relative;
+  z-index: 1;
+}
+
+.stat-label {
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-dim);
+  margin-top: 4px;
+  position: relative;
+  z-index: 1;
+}
+
+.color-cyan { color: var(--cyan); }
+.color-green { color: var(--green); }
+.color-purple { color: var(--purple); }
+
+/* ═══════════════════════════════════
+   FEATURES ROW
+   ═══════════════════════════════════ */
+.features {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.feature {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  padding: 14px 10px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.feature:hover {
+  border-color: rgba(0,229,255,0.3);
+  transform: translateY(-3px);
+}
+
+.feature-icon {
+  width: 36px;
+  height: 36px;
+  margin: 0 auto 8px;
+  background: rgba(0,229,255,0.08);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke: var(--cyan);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.feature h4 {
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.feature p {
+  font-size: 10px;
+  color: var(--text-dim);
+}
+
+/* ═══════════════════════════════════
+   CTA BUTTON
+   ═══════════════════════════════════ */
+.cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  min-height: 74px;
+  padding: 16px 18px;
+  border-radius: 0;
+  text-decoration: none;
+  font-weight: 900;
+  font-size: 22px;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  color: var(--ink);
+  background: var(--telegram);
+  border: 5px solid var(--ink);
+  box-shadow: 8px 8px 0 var(--shadow);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  margin-bottom: 20px;
+}
+
+.cta-main,
+.cta-sub {
+  position: relative;
+  z-index: 1;
+}
+
+.cta-main {
+  line-height: 1.1;
+}
+
+.cta-sub {
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 900;
+  color: var(--ink);
+  text-transform: none;
+}
+
+.cta:hover {
+  transform: translate(3px, 3px);
+  box-shadow: 5px 5px 0 var(--shadow);
+}
+
+.cta:active {
+  transform: translate(8px, 8px);
+  box-shadow: 0 0 0 var(--shadow);
+}
+
+.cta::before {
+  display: none;
+}
+
+/* ═══════════════════════════════════
+   WINNING POPUP
+   ═══════════════════════════════════ */
+.win-popup {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(120px);
+  background: rgba(12,18,35,0.95);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(0,255,136,0.2);
+  border-radius: 16px;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 999;
+  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+  max-width: 360px;
+  width: 90%;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+.win-popup.show {
+  transform: translateX(-50%) translateY(0);
+}
+
+.win-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--cyan), var(--purple));
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.win-info {
+  flex: 1;
+}
+
+.win-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.win-amount {
+  font-size: 11px;
+  color: var(--green);
+  font-weight: 600;
+}
+
+.win-time {
+  font-size: 10px;
+  color: var(--text-dim);
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════ */
+.footer {
+  text-align: center;
+  margin-top: 18px;
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  color: var(--ink);
+  letter-spacing: 0;
+  text-transform: uppercase;
+  line-height: 1.8;
+  font-weight: 900;
+  background: var(--paper);
+  border: 4px solid var(--ink);
+  box-shadow: 7px 7px 0 var(--shadow);
+  padding: 10px;
+  animation: none;
+}
+
+@keyframes fadeSlideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════ */
+@media (max-width: 380px) {
+  body { padding: 22px 12px; }
+  .card { padding: 24px 15px 20px; box-shadow: 8px 8px 0 var(--shadow); }
+  .brand { font-size: 34px; }
+  .cta { min-height: 70px; padding: 14px 12px; font-size: 18px; }
+  .cta-sub { font-size: 10px; }
+}
+
+@media (max-width: 320px) {
+  .tags { gap: 6px; }
+  .tag { padding: 6px 8px; font-size: 10px; }
+  .brand { font-size: 30px; }
+}
+</style>
+</head>
+<body>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2212403179563148&ev=PageView&noscript=1"
+alt=""></noscript>
+
+<div class="wrapper">
+
+  <!-- Main Card -->
+  <div class="card">
+
+    <!-- Top border glow animation is via ::before -->
+
+    <!-- Avatar -->
+    <div class="avatar-container">
+      <div class="avatar-ring"></div>
+      <div class="avatar-inner">
+        <img src="https://jaiclub.games/wp-content/uploads/2026/03/jai-club-1-e1774171855952-300x300.jpeg" alt="JAI CLUB">
+      </div>
+      <div class="verified-icon">
+        <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+      </div>
+    </div>
+
+    <!-- Brand -->
+    <h1 class="brand">JAI CLUB</h1>
+    <p class="subtitle">Premium Match Analysis Platform</p>
+    <p class="channel-note">Official Telegram channel for latest updates</p>
+
+    <!-- CTA -->
+    <a href="https://t.me/+rzAxlU50x7UzZjI9" target="_blank" rel="noopener noreferrer" class="cta" id="joinChannelBtn">
+      <span class="cta-main">Join Telegram Channel</span>
+      <span class="cta-sub">Official updates on Telegram</span>
+    </a>
+
+    <!-- Tags -->
+    <div class="tags">
+      <span class="tag tag-cyan">Verified</span>
+      <span class="tag tag-purple">Telegram Updates</span>
+      <span class="tag tag-gold">Official Channel</span>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    Official Telegram Access<br>
+    &copy; 2025 JAI CLUB. All rights reserved.
+  </div>
+
+</div>
+
+<script>
+const joinChannelBtn = document.getElementById("joinChannelBtn");
+joinChannelBtn.addEventListener("click", () => {
+  if (typeof fbq === "function") {
+    fbq("track", "Lead");
+    fbq("trackCustom", "TelegramJoinClick");
+  }
+});
+</script>
+</body>
+</html>
