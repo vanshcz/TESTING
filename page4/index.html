@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JAI CLUB | Official Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2212403179563148');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2212403179563148&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+<style>
+:root {
+  --bg:       #f0f4ff;
+  --white:    #ffffff;
+  --blue-900: #0b1f5c;
+  --blue-800: #1338a0;
+  --blue-600: #1e4fd8;
+  --blue-500: #3264f5;
+  --blue-400: #5b83ff;
+  --blue-100: #dce7ff;
+  --blue-50:  #eef3ff;
+  --slate:    #64748b;
+  --ink:      #0f172a;
+  --border:   rgba(30,79,216,0.12);
+  --tg:       #229ED9;
+  --tg-dark:  #1a7fb5;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(50,100,245,.13) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 80% 110%, rgba(30,79,216,.07) 0%, transparent 60%);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--ink);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 28px 16px 52px;
+  overflow-x: hidden;
+}
+
+.wrapper { width:100%; max-width:430px; position:relative; }
+
+/* TOP BAR */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  padding: 0 2px;
+  animation: riseUp .5s ease both;
+}
+
+.topbar-brand {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--blue-600);
+}
+
+.live-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #e6f7ff;
+  border: 1px solid rgba(34,158,217,.3);
+  border-radius: 20px;
+  padding: 5px 13px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--tg-dark);
+  text-transform: uppercase;
+}
+
+.live-dot {
+  width: 5px; height: 5px;
+  background: var(--tg);
+  border-radius: 50%;
+  animation: blink 1.8s ease-in-out infinite;
+}
+
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:.3;} }
+
+/* CARD */
+.card {
+  background: var(--white);
+  border-radius: 28px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  box-shadow:
+    0 1px 3px rgba(0,0,0,.04),
+    0 8px 24px rgba(30,79,216,.07),
+    0 32px 64px rgba(30,79,216,.06);
+  animation: riseUp .7s cubic-bezier(.16,1,.3,1) .08s both;
+}
+
+@keyframes riseUp {
+  from { opacity:0; transform:translateY(28px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* HERO */
+.hero {
+  padding: 36px 28px 30px;
+  text-align: center;
+  background: linear-gradient(170deg, #f5f8ff 0%, #eaf0ff 100%);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content:'';
+  position:absolute; top:-70px; right:-70px;
+  width:220px; height:220px; border-radius:50%;
+  background:radial-gradient(circle,rgba(50,100,245,.1) 0%,transparent 70%);
+}
+
+.hero::after {
+  content:'';
+  position:absolute; bottom:-50px; left:-50px;
+  width:180px; height:180px; border-radius:50%;
+  background:radial-gradient(circle,rgba(30,79,216,.07) 0%,transparent 70%);
+}
+
+/* Avatar */
+.av-wrap {
+  position:relative; width:100px; height:100px;
+  margin:0 auto 22px;
+}
+
+.av-glow {
+  position:absolute; inset:-10px; border-radius:50%;
+  background:conic-gradient(var(--blue-400),var(--blue-600),var(--tg),var(--blue-400));
+  opacity:.25; filter:blur(6px);
+  animation:spinSlow 8s linear infinite;
+}
+
+@keyframes spinSlow { to{transform:rotate(360deg);} }
+
+.av-ring {
+  position:absolute; inset:-4px; border-radius:50%;
+  border:2px solid transparent;
+  background:linear-gradient(var(--white),var(--white)) padding-box,
+             linear-gradient(135deg,var(--blue-500),var(--tg)) border-box;
+}
+
+.av-img {
+  width:100%; height:100%; border-radius:50%;
+  object-fit:cover; display:block; position:relative; z-index:2;
+  border:3px solid var(--white);
+  box-shadow:0 4px 16px rgba(30,79,216,.18);
+}
+
+.av-badge {
+  position:absolute; bottom:0; right:0; z-index:3;
+  width:26px; height:26px;
+  background:linear-gradient(135deg,var(--blue-500),var(--blue-800));
+  border-radius:50%; border:3px solid var(--white);
+  display:flex; align-items:center; justify-content:center;
+}
+.av-badge svg { width:11px; height:11px; fill:#fff; }
+
+/* Brand text */
+.brand {
+  font-family:'Playfair Display',serif;
+  font-size:44px; font-weight:900; line-height:1;
+  letter-spacing:-.5px; color:var(--blue-900);
+  margin-bottom:6px; position:relative; z-index:1;
+}
+
+.brand span {
+  background:linear-gradient(135deg,var(--blue-500),var(--tg));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+
+.brand-sub {
+  font-size:13.5px; font-weight:400; color:var(--slate);
+  margin-bottom:22px; position:relative; z-index:1;
+}
+
+.tags {
+  display:flex; gap:8px; justify-content:center; flex-wrap:wrap;
+  position:relative; z-index:1;
+}
+
+.tag {
+  padding:5px 14px; border-radius:20px;
+  font-size:10.5px; font-weight:700;
+  letter-spacing:.8px; text-transform:uppercase;
+}
+
+.tag-blue  { background:var(--blue-100); color:var(--blue-800); }
+.tag-tg    { background:#d8f1fb; color:#136a94; }
+.tag-navy  { background:var(--blue-50); color:var(--blue-900); border:1px solid var(--blue-100); }
+
+/* MEMBER BAR */
+.member-bar {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 24px;
+  background:linear-gradient(90deg,var(--blue-50),#f0f5ff);
+  border-bottom:1px solid var(--border);
+}
+
+.mb-left { display:flex; align-items:center; gap:10px; }
+
+.mb-pulse {
+  width:9px; height:9px; background:var(--tg); border-radius:50%;
+  box-shadow:0 0 0 3px rgba(34,158,217,.2);
+  animation:blink 2s ease-in-out infinite;
+}
+
+.mb-label { font-size:12px; font-weight:500; color:var(--slate); }
+
+.mb-count {
+  font-family:'Playfair Display',serif;
+  font-size:24px; font-weight:700; color:var(--blue-800);
+}
+
+/* STATS */
+.stats {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  border-bottom:1px solid var(--border);
+}
+
+.stat {
+  padding:20px 10px; text-align:center;
+  transition:background .2s; position:relative;
+}
+
+.stat:not(:last-child) { border-right:1px solid var(--border); }
+.stat:hover { background:var(--blue-50); }
+
+.stat-val {
+  font-family:'Playfair Display',serif;
+  font-size:30px; font-weight:700; color:var(--blue-800);
+  line-height:1; display:block;
+}
+
+.stat-val small {
+  font-size:14px; vertical-align:super; color:var(--blue-500);
+  font-family:'Plus Jakarta Sans',sans-serif; font-weight:700;
+}
+
+.stat-lbl {
+  font-size:9.5px; font-weight:700; letter-spacing:1.5px;
+  text-transform:uppercase; color:var(--slate);
+  margin-top:5px; display:block;
+}
+
+/* ── MAIN CTA SECTION ── */
+.cta-wrap { padding:28px 24px 18px; }
+
+/* Big Telegram button — the hero CTA */
+.cta-tg {
+  display:flex; align-items:center; justify-content:space-between;
+  width:100%; padding:0 20px 0 8px; height:72px;
+  border-radius:20px; text-decoration:none;
+  background:linear-gradient(135deg,#229ED9 0%,#1a7fb5 100%);
+  box-shadow:
+    0 6px 28px rgba(34,158,217,.45),
+    0 1px 0 rgba(255,255,255,.18) inset;
+  transition:all .25s cubic-bezier(.16,1,.3,1);
+  overflow:hidden; position:relative;
+  margin-bottom:12px;
+  border: none;
+}
+
+/* shimmer sweep */
+.cta-tg::before {
+  content:''; position:absolute; top:0; left:-70%;
+  width:50%; height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);
+  animation:shine 3.5s infinite;
+}
+
+@keyframes shine {
+  0%  { left:-70%; }
+  35% { left:120%; }
+  100%{ left:120%; }
+}
+
+.cta-tg:hover {
+  transform:translateY(-4px) scale(1.015);
+  box-shadow:0 12px 36px rgba(34,158,217,.55);
+}
+
+.cta-tg:active { transform:translateY(0) scale(.99); }
+
+.tg-icon-wrap {
+  width:52px; height:52px;
+  background:rgba(255,255,255,.18);
+  border-radius:15px;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; margin-right:14px;
+}
+
+.tg-icon-wrap svg { width:28px; height:28px; fill:#fff; }
+
+.cta-text { flex:1; }
+
+.cta-main {
+  display:block; font-size:16px; font-weight:800;
+  color:#fff; letter-spacing:.2px;
+}
+
+.cta-sub {
+  display:block; font-size:11px; font-weight:500;
+  color:rgba(255,255,255,.78); margin-top:2px;
+}
+
+.cta-arrow { color:rgba(255,255,255,.85); transition:transform .2s; flex-shrink:0; }
+.cta-tg:hover .cta-arrow { transform:translateX(5px); }
+
+/* note under button */
+.cta-note {
+  text-align:center; font-size:10.5px; color:var(--slate);
+  font-weight:500; display:flex; align-items:center;
+  justify-content:center; gap:6px; margin-top:4px;
+}
+
+.cta-note::before,.cta-note::after {
+  content:''; height:1px; width:36px; background:var(--border);
+}
+
+/* FEATURES */
+.feats {
+  display:grid; grid-template-columns:1fr 1fr;
+  border-top:1px solid var(--border);
+}
+
+.feat {
+  padding:18px 20px; border-bottom:1px solid var(--border);
+  transition:background .2s;
+}
+
+.feat:nth-child(odd) { border-right:1px solid var(--border); }
+.feat:hover { background:var(--blue-50); }
+
+.feat-ic {
+  width:34px; height:34px; border-radius:10px;
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom:10px; font-size:17px;
+}
+
+.ic-blue { background:var(--blue-100); }
+.ic-tg   { background:#d8f1fb; }
+.ic-navy { background:var(--blue-50); border:1px solid var(--blue-100); }
+.ic-sky  { background:#e0f2fe; }
+
+.feat h4 { font-size:13px; font-weight:700; color:var(--blue-900); margin-bottom:2px; }
+.feat p  { font-size:11px; color:var(--slate); line-height:1.4; }
+
+/* TRUST STRIP */
+.trust {
+  padding:20px 24px;
+  background:linear-gradient(135deg,var(--blue-50) 0%,#eef4ff 100%);
+  display:flex; align-items:center; gap:14px;
+  border-top:1px solid var(--border);
+}
+
+.trust-icon {
+  width:42px; height:42px; border-radius:12px;
+  background:linear-gradient(135deg,var(--blue-500),var(--blue-800));
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; font-size:20px;
+}
+
+.trust-text h5 { font-size:13px; font-weight:700; color:var(--blue-900); margin-bottom:2px; }
+.trust-text p  { font-size:11px; color:var(--slate); line-height:1.45; }
+
+/* FOOTER */
+.footer {
+  text-align:center; margin-top:22px;
+  font-size:10.5px; font-weight:500; color:var(--slate);
+  letter-spacing:.5px; line-height:2;
+  animation:riseUp .8s ease .3s both;
+}
+
+/* RESPONSIVE */
+@media(max-width:380px){
+  body { padding:20px 12px 40px; }
+  .brand { font-size:36px; }
+  .hero { padding:28px 18px 24px; }
+  .stat-val { font-size:24px; }
+  .cta-wrap { padding:22px 18px 14px; }
+  .cta-tg { height:64px; }
+  .cta-main { font-size:14px; }
+  .feats { grid-template-columns:1fr; }
+  .feat:nth-child(odd) { border-right:none; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <span class="topbar-brand">JAI CLUB</span>
+    <div class="live-chip">
+      <span class="live-dot"></span>
+      Live Channel
+    </div>
+  </div>
+
+  <div class="card">
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="av-wrap">
+        <div class="av-glow"></div>
+        <div class="av-ring"></div>
+        <img class="av-img"
+          src="https://jaiclub.games/wp-content/uploads/2026/03/jai-club-1-e1774171855952-300x300.jpeg"
+          alt="JAI CLUB">
+        <div class="av-badge">
+          <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+      </div>
+
+      <h1 class="brand">JAI <span>CLUB</span></h1>
+      <p class="brand-sub">Premium Match Analysis Platform</p>
+
+      <div class="tags">
+        <span class="tag tag-blue">Verified Channel</span>
+        <span class="tag tag-tg">Elite Analyst</span>
+        <span class="tag tag-navy">VIP Access</span>
+      </div>
+    </div>
+
+    <!-- Member bar -->
+    <div class="member-bar">
+      <div class="mb-left">
+        <span class="mb-pulse"></span>
+        <span class="mb-label">Active Members</span>
+      </div>
+      <span class="mb-count" id="memberCount">500,038</span>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-val">25<small>K+</small></span>
+        <span class="stat-lbl">Daily Tips</span>
+      </div>
+      <div class="stat">
+        <span class="stat-val">99<small>%</small></span>
+        <span class="stat-lbl">Accuracy</span>
+      </div>
+      <div class="stat">
+        <span class="stat-val">4.9<small>★</small></span>
+        <span class="stat-lbl">Rating</span>
+      </div>
+    </div>
+
+    <!-- ── MAIN CTA ── -->
+    <div class="cta-wrap">
+      <a
+        href="https://t.me/+rzAxlU50x7UzZjI9"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="cta-tg"
+        id="telegramCTA"
+        aria-label="Join JAI CLUB Telegram Channel"
+      >
+        <div class="tg-icon-wrap">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.869 4.326-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.829.941z"/>
+          </svg>
+        </div>
+        <div class="cta-text">
+          <span class="cta-main">Join Telegram Channel</span>
+          <span class="cta-sub">Free · Instant access · No spam ever</span>
+        </div>
+        <svg class="cta-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+      <p class="cta-note">Join 500,000+ members today</p>
+    </div>
+
+    <!-- Features -->
+    <div class="feats">
+      <div class="feat">
+        <div class="feat-ic ic-blue">🔐</div>
+        <h4>100% Secure</h4>
+        <p>Encrypted & trusted platform</p>
+      </div>
+      <div class="feat">
+        <div class="feat-ic ic-tg">⚡</div>
+        <h4>24/7 Support</h4>
+        <p>Always here to help you</p>
+      </div>
+      <div class="feat">
+        <div class="feat-ic ic-sky">📊</div>
+        <h4>Expert Analysis</h4>
+        <p>Data-driven match insights</p>
+      </div>
+      <div class="feat">
+        <div class="feat-ic ic-navy">👥</div>
+        <h4>5L+ Community</h4>
+        <p>Fastest growing group</p>
+      </div>
+    </div>
+
+    <!-- Trust -->
+    <div class="trust">
+      <div class="trust-icon">🏆</div>
+      <div class="trust-text">
+        <h5>India's #1 Match Analysis Channel</h5>
+        <p>Verified · Trusted · Premium — delivering winning insights daily.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    Verified Telegram Community &nbsp;·&nbsp; Fast Access &nbsp;·&nbsp; No Spam<br>
+    © 2026 JAI CLUB. All rights reserved.
+  </div>
+
+</div>
+
+<script>
+  // Live member counter
+  let n = 500038;
+  const el = document.getElementById('memberCount');
+  (function tick() {
+    n += Math.floor(Math.random() * 3) + 1;
+    el.textContent = n.toLocaleString('en-IN');
+    setTimeout(tick, 3200 + Math.random() * 4500);
+  })();
+
+  // Fire Meta Pixel Lead event on CTA click
+  document.getElementById('telegramCTA').addEventListener('click', function () {
+    if (typeof fbq === 'function') {
+      fbq('track', 'Lead');
+    }
+  });
+</script>
+</body>
+</html>
